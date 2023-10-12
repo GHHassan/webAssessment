@@ -1,10 +1,9 @@
 <?php
 
-include 'endpoint.php';
-class Developer extends Endpoint{
+class Developer {
     private $fullname;
     private $studentID;
-
+    private $data;
     public function __construct(){
         $this->fullname = "Ghulam Hassan Hassani";
         $this->studentID = "W20017074";
@@ -26,5 +25,12 @@ class Developer extends Endpoint{
     }
     public function setStudentID($studentID){
         $this->studentID = $studentID;
+    }
+
+    public function setData($data){
+        $this->data = $data;
+    }
+    public function getData(){
+        return $this->data;
     }
 }

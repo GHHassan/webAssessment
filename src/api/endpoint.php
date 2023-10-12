@@ -1,63 +1,63 @@
 <?php
-
 /**
- * Parent Endpoint class
+ * Endpiont class 
  * 
- * this communicates with the database class
- * who runs sql queries and performing CRUD 
- * the database
+ * a blueprint for the rest of endpoints for this project
  * 
- * @author G H Hassani w20017074
- * 
+ * @author Hassan
  */
 
- class Endpoint {
-    private $sql ;
-    private $data;
+include 'database.php';
+class Endpoint
+{
+    private $sql;
     private $sqlParams;
+    private $data;
 
-    private $db;
-
-    function __construct(){
-        $db = new Database('chiplay.sqlite');
+    public function __construct()
+    {
+        $db = new Database("chiplay.sqlite");
         $this->initialiseSQL();
-        $this->data = $db->executeSql($this->getSQL(), $this->getSQLParams());
-        $this->setData(array(
-            "length" => $this->data->length,
-            "message"=> 'success',
-            "data"=> $this->data
-        ));
+        $this->data = $db->executeSQL($this->getSQL(), $this->getSQLParams());
+
+        $this->setData(
+            array(
+                "length" => count($this->data),
+                "message" => "Success",
+                "data" => $this->data
+            )
+        );
     }
-
-    public function initialiseSQL(){
-        $sql = "";
-        $sqlParams = "";
-        $this->setSql($sql);
-        $this->setSQLParams($sqlParams);
-    }
-
-    public function getSQL(){
-        return $this->sql;
-    }    
-
-    public function setSQL($sql){
+    public function setSql($sql)
+    {
         $this->sql = $sql;
     }
 
-    public function getSQLParams(){
+    public function getSQL()
+    {
+        return $this->sql;
+    }
+    public function getSQLParams()
+    {
         return $this->sqlParams;
     }
-
-    public function setSQLParams($array){
-        $this->setSQLParams($array);
-    }
-
-    public function getData(){
+    public function getData()
+    {
         return $this->data;
     }
-
-    public function setData($data){
-        $this->data =  $data;
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+    public function setSQLParams($sqlParams)
+    {
+        $this->sqlParams = $sqlParams;
+    }
+    public function initialiseSQL()
+    {
+        $sql = "";
+        $this->setSql($sql);
+        $this->setSQLParams([]);
     }
 
- }
+}

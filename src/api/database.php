@@ -28,7 +28,6 @@
     public function executeSql($sql, $params=[]){
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
  }
