@@ -33,6 +33,5 @@
  */
 
  class Authorandaffiliation extends Endpoint{
-
-    
+        
  }

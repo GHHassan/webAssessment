@@ -16,7 +16,7 @@ class Endpoint
 
     public function __construct()
     {
-        $db = new Database("chiplay.sqlite");
+        $db = new Database("chi2023.sqlite");
         $this->initialiseSQL();
         $this->data = $db->executeSQL($this->getSQL(), $this->getSQLParams());
 
