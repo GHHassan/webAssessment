@@ -9,9 +9,8 @@ class Preview extends Endpoint
 
     public function __construct()
     {
-        $db = new Database("chiplay.sqlite");
+        parent::__construct();
         $this->initialiseSQL();
-        $this->data = $db->executeSQL($this->getSQL(), $this->getSQLParams());
         $nonEmptyData = $this->data;
 
         //remove objects with no video link
@@ -37,7 +36,7 @@ class Preview extends Endpoint
     public function initialiseSQL()
     {
         (!isset($_GET['limit'])) ? $limit = 20 : $limit = (int) $_GET['limit'];
-        $sql = 'SELECT title, video FROM paper ORDER BY RANDOM() LIMIT ' . $limit;
+        $sql = 'SELECT title, video FROM content ORDER BY RANDOM() LIMIT ' . $limit;
         $this->setSQL($sql);
         $this->setSQLParams([]);
     }

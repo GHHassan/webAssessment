@@ -14,11 +14,12 @@ class Endpoint
     private $sqlParams;
     private $data;
 
+    private $db;
     public function __construct()
     {
-        $db = new Database("chi2023.sqlite");
+        $this->db = new Database("./db/chi2023.sqlite");
         $this->initialiseSQL();
-        $this->data = $db->executeSQL($this->getSQL(), $this->getSQLParams());
+        $this->data = $this->db->executeSQL($this->getSQL(), $this->getSQLParams());
 
         $this->setData(
             array(
