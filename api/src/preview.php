@@ -1,7 +1,9 @@
 <?php
 /**
- * previews video links and associated title
+ * fetches titles and preview_video links
+ * from database
  * 
+ * @author @author G H Hassani <w20017074@northumbria.ac.uk>
  */
 
 class Preview extends Endpoint
@@ -11,32 +13,35 @@ class Preview extends Endpoint
     {
         parent::__construct();
         $this->initialiseSQL();
-        $nonEmptyData = $this->data;
-
+        
+        //needs to be fixed
+        //always returns empty array
         //remove objects with no video link
-        foreach ($nonEmptyData as $index=>$data) {
-            if ($data['video'] == null || $data['title'] == null) {
-                if(array_key_exists($index, $nonEmptyData)){
-                    unset($nonEmptyData[$index]);
-                }
-            }
+        $nonEmptyData = [];
+        $original = $this->data['data'];
+        foreach ($original as $key => $value) {
+            if ($value !== null && $value !== "") {
+                $nonEmptyData[$key] = $value;
+            }            
         }
-        $dataLength = count($this->data);
+        $dataLength = count($this->getData());
         $nonEmptyDataLength = count($nonEmptyData);
         $removed = $dataLength - $nonEmptyDataLength;
         $this->setData(
             array(
-                "length" => count($this->data),
+                "length" => count($this->data["data"]),
                 "message" => "Success",
-                "data" => $nonEmptyData,
-                "Removed"=> $removed
-            )
-        );
-    }
+                "original" => $this->data["data"],
+                "notEmptyLength" => $nonEmptyDataLength,
+                "notEmptyData" => $nonEmptyData,
+                "Removed" => $removed,
+                )
+            );
+        }
     public function initialiseSQL()
     {
         (!isset($_GET['limit'])) ? $limit = 20 : $limit = (int) $_GET['limit'];
-        $sql = 'SELECT title, video FROM content ORDER BY RANDOM() LIMIT ' . $limit;
+        $sql = 'SELECT title, preview_video FROM content ORDER BY RANDOM() LIMIT ' . $limit;
         $this->setSQL($sql);
         $this->setSQLParams([]);
     }

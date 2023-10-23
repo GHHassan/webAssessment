@@ -12,17 +12,22 @@
 
 class autoloader
 {
-
     public function __construct()
     {
-        spl_autoload_register(array($this, 'autoload'));
+        $this->register();
     }
+
     public static function autoload($class)
     {
         $class = strtolower($class);
-        $path = 'api/' . $class . '.php';
+        $path = '../api/src/' . $class . '.php';
         if (file_exists($path)) {
             include_once $path;
         }
+    }
+
+    public static function register()
+    {
+        spl_autoload_register(array(__CLASS__, 'autoload'));
     }
 }

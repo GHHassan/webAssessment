@@ -7,7 +7,7 @@
  * this class is reponsible for connecting and
  * running CRUD operation on the database
  * 
- * @author G H Hassani w20017074
+ * @author @author G H Hassani <w20017074@northumbria.ac.uk>
  * 
  * @return database connection
  */

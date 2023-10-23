@@ -4,18 +4,43 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'config/autoloader.php';
-// $countries = new Country();
+$autoloader = new autoloader();
+$autoloader::register();
 
-header('Content-Type: Application/json');
+$response = new Response();
 
-// $data = $countries->getData();
+$url = $_SERVER['REQUEST_URI'];
+$path = parse_url($url)['path'];
+$path = str_replace('/coursework/api/','', $path);
 
-// echo json_encode($data);
 
-$dev = new Developer();
-$devData = $dev->getData();
-echo json_encode($devData);
-// $preview = new Preview();
-// $prevData = $preview->getData();
+$endpoint = null;
+switch($path) {
+    case '/':
+    case 'index':
+    case 'home':
+    case 'developer':
+        $endpoint = new Developer();
+    case 'country':
+    case '/country':
+        $endpoint = new Country();
+        break;
+    case 'preview':
+    case '/preview':
+        $endpoint = new Preview();
+        break;
+    case 'author-and-affiliation':
+    case '/author-and-affiliation':
+        $endpoint = new AuthorAndAffiliation();
+        break;
+    case 'contenct':
+    case '/contenct':    
+        $endpoint = new Content();
+        break;
+    default:
+        $endpoint = new Developer();
+        break;
+}
 
-// echo json_encode($prevData);
+$data = $endpoint->getData();
+echo json_encode($data);
