@@ -32,6 +32,17 @@
  * 
  */
 
- class Authorandaffiliation extends Endpoint{
-        
+ class Authorandaffiliation extends Endpoint
+ {
+    public function __construct(){
+        parent::__construct();
+        $this->initialiseSQL();
+
+    }
+
+    public function initialiseSQL(){
+        $sql = 'SELECT DISTINCT country, city, institution, author_id, author_name, content_id, content_name FROM affiliation';
+        $this->setSQL($sql);
+        $this->setSQLParams([]);
+    }
  }

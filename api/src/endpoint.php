@@ -29,6 +29,14 @@ class Endpoint
             )
         );
     }
+
+    public function sanitise($input)
+    {
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;
+    }
     public function setSql($sql)
     {
         $this->sql = $sql;
