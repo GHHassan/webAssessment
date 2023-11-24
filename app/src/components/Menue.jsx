@@ -5,6 +5,7 @@ function Menue(){
     
     return(
         <div>
+            <h1>CHI 2023</h1>
             <ul>
                 {/* <li><Link to={<Home />}>Home</Link></li> */}
                 <li><Link to='/'>Home</Link></li>
