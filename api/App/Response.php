@@ -16,6 +16,7 @@ class Response
     public function __construct()
     {
         $this->outputHeaders();
+        
         if (Request::method() == "OPTIONS") {
             exit();
         }
@@ -23,10 +24,9 @@ class Response
 
     private function outputHeaders()
     {
-        header('Access-Control-Allow-Headers: Authorization');
         header('Content-Type: application/json');
         header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE');
+        header('Access-Control-Allow-Methods: GET, OPTIONS');
     }
 
     public function outputJSON($data)

@@ -1,9 +1,5 @@
 <?php
-/**
- * outputs the details of the developer
- * 
- * @author @author G H Hassani <w20017074@northumbria.ac.uk>
- */
+
 class Developer {
     private $fullname;
     private $studentID;

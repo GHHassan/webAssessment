@@ -2,10 +2,17 @@
 /**
  * Endpiont class 
  * 
- * a blueprint for the rest of endpoints for this project
- * also provides the database connection
+ * A blueprint for the other endpoints in this project
+ * that inherits it. It is responsible for connecting to
+ * the database and returning the data in JSON format.
+ * It does not support any parametere.
+ * limits access to only GET requests. this only 
+ * applys to the endpoints that inherit this class and
+ * calls the parent constructor. in its constructor.
+ * this also includes the initialise() method that
+ * is used by some of the child classes.
  * 
- * @author @author G H Hassani <w20017074@northumbria.ac.uk>
+ * @author Hassan
  */
 
 class Endpoint
@@ -13,29 +20,31 @@ class Endpoint
     private $sql;
     private $sqlParams;
     private $data;
+    protected $db;
 
-    private $db;
-    public function __construct()
+    public function __construct($data = ["message" => "No data found"])
     {
-        $this->db = new Database("./db/chi2023.sqlite");
-        $this->initialiseSQL();
-        $this->data = $this->db->executeSQL($this->getSQL(), $this->getSQLParams());
-
-        $this->setData(
-            array(
-                "length" => count($this->data),
-                "message" => "Success",
-                "data" => $this->data
-            )
-        );
+        switch (Request::method()) {
+            case 'GET':
+                $this->db = new Database("db/chi2023.sqlite");
+                $this->initialiseSQL();
+                $this->data = $this->db->executeSQL($this->getSQL(), $this->getSQLParams());
+                $this->setData(
+                    array(
+                        "length" => count($this->data),
+                        "message" => "Success",
+                        "data" => $this->data
+                    )
+                );
+                break;
+            default:
+                throw new ClientError(405);
+        }
     }
 
     public function sanitise($input)
     {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
+        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
     }
     public function setSql($sql)
     {

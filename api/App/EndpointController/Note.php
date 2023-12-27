@@ -15,7 +15,7 @@ namespace App\EndpointController;
  * return the note for the specific content.
  * 
  * @package App\EndpointController
- * @return array json data of the note for a specific content
+ * @return JSON data of the note for a specific content
  * 
  * @author Hassan <w20017074>
  */
@@ -59,13 +59,14 @@ class Note extends Endpoint
      * 
      * @return string
      */
-    private function validateNote() 
+    private function note() 
     {
         $note = $this->sanitiseString(REQUEST::params()['note']);
 
         if (mb_strlen(strlen($note) > 255)) {
             throw new ClientError(431, 'note is '. strlen($note).' over max length 255 characters ');
         }
+
        return $note;
     }
  
@@ -82,6 +83,7 @@ class Note extends Endpoint
     private function getNote($id)
     {
         $this->allowedParams= ['content_id'];
+        $this->checkAllowedParams(Request::params(), $this->allowedParams);
         if (isset(REQUEST::params()['content_id']))
         {
             $content_id = REQUEST::params()['content_id'];
@@ -111,6 +113,7 @@ class Note extends Endpoint
     private function postNote($id)
     {
         $this->allowedParams= ['content_id', 'note'];
+        $this->checkAllowedParams(Request::params(), $this->allowedParams);
         if (!isset(REQUEST::params()['content_id']))
         {
             throw new ClientError(422);
@@ -122,7 +125,7 @@ class Note extends Endpoint
             throw new ClientError(422);
         }
  
-        $note = $this->validateNote();
+        $note = $this->note();
         $dbConn = new Database(DB_USER_PATH);
         $sqlParams = [':id' => $id, 'content_id' => $content_id];
         $sql = "SELECT * FROM notes WHERE user_id = :id AND content_id = :content_id";
@@ -136,8 +139,8 @@ class Note extends Endpoint
  
         $sqlParams = [':id' => $id, 'content_id' => $content_id, 'note' => $note];
         $data = $dbConn->executeSQL($sql, $sqlParams);
-      
-        return ['note' => $note, 'content_id' => $content_id];
+     
+        return [];
     }
  
  
@@ -157,7 +160,9 @@ class Note extends Endpoint
         {
             throw new ClientError(422);
         }
+ 
         $content_id = REQUEST::params()['content_id'];
+        
         if (!is_numeric($content_id))
         {
             throw new ClientError(422);
@@ -167,7 +172,7 @@ class Note extends Endpoint
         $sql = "DELETE FROM notes WHERE user_id = :id AND content_id = :content_id";
         $sqlParams = [':id' => $id, 'content_id' => $content_id];
         $data = $dbConn->executeSQL($sql, $sqlParams);
-        $data = ['message' => 'success'];
+        $data['message'] = 'deleted';
         return $data;
     }
  

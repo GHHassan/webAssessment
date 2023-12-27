@@ -31,13 +31,12 @@ use App\ClientError;
 class AuthorAndAffiliation extends Endpoint
 {
     private $db;
-    private $sql = 'SELECT content.id as content_id, content.title as content_title, author.id as author_id, author.name as author_name, 
-        affiliation.country as affiliation_country, affiliation.city as affiliation_city, 
-        affiliation.institution as affiliation_institution
+    private $sql = 'SELECT content.id as content_id, content.title as contenet_title, author.id as author_id, author.name as author_name, 
+        affiliation.country as country, affiliation.city as city, 
+        affiliation.institution as institution 
         FROM author
         JOIN affiliation on author.id = affiliation.author
         JOIN content on content.id = affiliation.content';
-
     private $sqlParams = [];
     private $allowedParams = ["content", "country"];
     private $allowedMethods = ["GET"];
@@ -54,6 +53,7 @@ class AuthorAndAffiliation extends Endpoint
 
     public function initialiseSQL()
     {
+        // Check and validate the parameters.
         $this->checkAllowedParams(Request::params(), $this->allowedParams);
         $contentId = Request::params()['content'] ?? null;
         $country = Request::params()['country'] ?? null;
@@ -65,7 +65,7 @@ class AuthorAndAffiliation extends Endpoint
         }
 
         if (isset($validatedContentId) && isset($normalisedCountry)) {
-            throw new ClientError(422, "You can only filter by content or country, not both.");
+            throw new ClientError(422);
         }
 
         // Build the SQL query.

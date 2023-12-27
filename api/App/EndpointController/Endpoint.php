@@ -116,7 +116,7 @@ class Endpoint
         $sql = "SELECT id , password FROM account WHERE email = :email";
         $dbConn = new Database(DB_USER_PATH);
         if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
-            throw new ClientError(401, "Username or password is empty");
+            throw new ClientError(401, "Username or password is missing");
         }
         if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
             throw new ClientError(401, "Username or password is empty");
@@ -124,8 +124,8 @@ class Endpoint
 
         $sqlParams[":email"] = $_SERVER['PHP_AUTH_USER'];
         $data = $dbConn->executeSQL($sql, $sqlParams);
-        if(count($data) !== 1) {
-            throw new ClientError(401, "Username or password is incorrect");
+        if (count($data) !== 1) {
+            throw new ClientError(500, "Please contact your admin");
         }
         if (!password_verify($_SERVER['PHP_AUTH_PW'], $data[0]['password'])) {
             throw new ClientError(401, "Username or password is incorrect");

@@ -1,58 +1,64 @@
 <?php
 /**
- * fetches titles and preview_video links
- * from database
+ * class previews
  * 
- * the class accepts a limit parameter from the url ($_GET['limit])
- * that specify the number of rows to be returned from the databse.
- * 
- * if the limit parameter is not set or is not a number or is less than 1
- * the parameter will be ignored and the default value of 20 will be used.
- * 
- * @param int $limit
- * @return JSON object with list of titles and preview_video links
- * @author @author G H Hassani <w20017074@northumbria.ac.uk>
+ * This endpoint connects to the database and returns
+ * the title and preview video for each item of the 
+ * contents requested. 
+ * The endpoint then filters the data to remove any
+ * items of content that do not have a preview video. 
+ * it supports an optional limit numric parameter that
+ * limits the number of items of content returned.
+ * non numeric or negative values will throw an error. 
+ * Access to this endpoint is limited to GET requests. 
+ * whic is inherited from its parent class.
+ *  
+ * @author  G H Hassani <W20017074@northumbria.ac.uk>
  */
-
- //====================== question 1 ======================
- //should the result be the same as the limit
- //or whate ever is left after the empty objects are removed
 
 class Preview extends Endpoint
 {
 
     public function __construct()
     {
-        parent::__construct();
+        Parent::__construct();
         $this->initialiseSQL();
-        $data = $this->getData();
-       
-        //remove objects with no video link from the list
-        $nonEmptyData = $this->removeEmptyObjects($data["data"]);
+        $this->data = $this->db->executeSQL($this->getSQL(), $this->getSQLParams());
+        $nonEmptyData = $this->removeEmptyObjects($this->data);
+        
+        $dataLength = count($this->data);
+        $nonEmptyDataLength = count($nonEmptyData);
+        $removed = $dataLength - $nonEmptyDataLength;
         $this->setData(
             array(
-                "length" => count($nonEmptyData),
+                "length" => count($this->data),
                 "message" => "Success",
                 "data" => $nonEmptyData,
-                )
-            );
-        }
-        
+                "Removed" => $removed
+            )
+        );
+    }
     public function initialiseSQL()
-    {   
-        $param= null;
-        (isset($_GET['limit'])) ? $param = $_GET['limit'] : $param = null;
-        $param = $this->sanitise($param);
-        is_numeric($param) && $param > 0 ? $limit = $param : $limit = 20;
+    {
+        (isset($_GET['limit']))? $limit = $this->sanitise($_GET['limit']) : $limit = 20;
+        if(!is_numeric($limit) || $limit < 1){
+            throw new ClientError(401);
+        }
+        if($limit == null){
+            $limit = 20;
+        }
         $sql = 'SELECT title, preview_video FROM content ORDER BY RANDOM() LIMIT ' . $limit;
         $this->setSQL($sql);
         $this->setSQLParams([]);
     }
-    private function removeEmptyObjects($data){
-        $nonEmptyData = [];
-        foreach($data as $value){
-            if($value['preview_video'] != ""){
-                array_push($nonEmptyData, $value);
+
+    private function removeEmptyObjects($nonEmptyData)
+    {
+        foreach ($nonEmptyData as $index=>$data) {
+            if ($data['preview_video'] == null) {
+                if(array_key_exists($index, $nonEmptyData)){
+                    unset($nonEmptyData[$index]);
+                }
             }
         }
         return $nonEmptyData;

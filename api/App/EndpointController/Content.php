@@ -34,7 +34,7 @@ use App\ClientError;
 class Content extends Endpoint
 {
     private $db;
-    private $sql = "SELECT content.id as content_id, type.name as content_type, 
+    private $sql = "SELECT content.id as content_id, type.name as type_name, 
         content.title as content_title, 
         content.abstract as content_abstract
         FROM content

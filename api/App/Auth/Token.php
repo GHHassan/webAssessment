@@ -21,7 +21,8 @@ namespace App\Auth;
 
 use Firebase\JWT\JWT;
 use App\Request;
-
+use App\Database;
+use App\ClientError;
 
 class Token extends \App\EndpointController\Endpoint 
 {
@@ -34,7 +35,6 @@ class Token extends \App\EndpointController\Endpoint
         $this->checkAllowedMethod(Request::method(), $this->allowedParams);
         $id = $this->checkCredentials();
         $data['token'] = $this->generateJWT($id);
-        $data['message'] = 'success';
         parent::__construct($data);
     }
 

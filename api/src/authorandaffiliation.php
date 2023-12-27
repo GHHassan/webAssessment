@@ -32,12 +32,13 @@
  * 
  */
 
- class Authorandaffiliation extends Endpoint
- {
+ class AuthorAndAffiliation extends Endpoint{
+    
     public function __construct(){
-        parent::__construct();
+        Parent::__construct ();
+        $db = new Database('db/chi2023.sqlite');
         $this->initialiseSQL();
-        $this->data = $this->getData();
+        $this->data = $db->executeSQL($this->getSQL(), $this->getSQLParams());
     }
 
     public function initialiseSQL(){

@@ -13,7 +13,7 @@ namespace App;
  */
 abstract class Router
 {
-
+    
     public static function routeRequest()
     {
         try {
@@ -27,37 +27,25 @@ abstract class Router
                 case '/countries':
                     $endpoint = new EndpointController\Country();
                     break;
-                case 'previews':
-                case '/previews':
+                case 'preview':
+                case '/preview':
                     $endpoint = new EndpointController\Preview();
                     break;
-                case 'author-and-affiliations':
-                case '/author-and-affiliations':
+                case 'author-and-affiliation':
+                case '/author-and-affiliation':
                     $endpoint = new EndpointController\AuthorAndAffiliation();
                     break;
-                case 'contents':
-                case '/contents':
+                case 'content':
+                case '/content':
                     $endpoint = new EndpointController\Content();
                     break;
                 case 'token':
                 case '/token':
                     $endpoint = new Auth\Token();
                     break;
-                case 'notes':
-                case '/notes':
+                case 'note':
+                case '/note':
                     $endpoint = new EndpointController\Note();
-                    break;
-                case 'contenttypes':
-                case '/contenttypes':
-                    $endpoint = new EndpointController\ContentTypes();
-                    break;
-                case 'awards':
-                case '/awards':
-                    $endpoint = new EndpointController\Award();
-                    break;
-                case 'types':
-                case '/types':
-                    $endpoint = new EndpointController\Type();
                     break;
                 default:
                     throw new ClientError(404);

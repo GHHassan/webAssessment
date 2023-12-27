@@ -3,18 +3,29 @@
 /** 
  * Country class
  * 
- * this class is using the affiliates table of the database
- * duplicate values are not allowed to be returned
+ * This endpoint connects to the database and returns
+ * the distinct list of countris from the affiliation table.
+ * The endpoint then filters the data to remove any
+ * It does not support any parametere.
+ * limits access to only GET requests.
+ * inherits database connection from its parent.
  * 
- * @author @author G H Hassani <w20017074@northumbria.ac.uk>
+ * @author  G H Hassani <W20017074@northumbria.ac.uk>
  */
-include 'endpoint.php';
 
- class Country extends Endpoint{
+class Country extends Endpoint
+{
 
-    public function initialiseSQL(){
+    public function __construct()
+    {
+        parent::__construct();
+        $this->initialiseSQL();
+        $this->data = $this->db->executeSQL($this->getSQL(), $this->getSQLParams());
+    }
+    public function initialiseSQL()
+    {
         $sql = 'SELECT DISTINCT country FROM affiliation';
         $this->setSQL($sql);
         $this->setSQLParams([]);
     }
- }
+}
