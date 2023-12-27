@@ -24,9 +24,11 @@ namespace App\EndpointController;
  * @author G H Hassani <W20017074@northumbria.ac.uk>
  */
 
-use App\Request;
-use App\Database;
-use App\ClientError;
+ use App\{
+    Request,
+    Database,
+    ClientError
+};
 
 class Preview extends Endpoint
 {

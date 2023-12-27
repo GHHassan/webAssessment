@@ -31,8 +31,6 @@ class Database {
             $stmt->execute($params);
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            // Handle the exception (e.g., log the error)
-            // You might also want to throw a custom exception for better handling
             throw new \Exception("Database error: " . $e->getMessage());
         }
     }

@@ -24,9 +24,11 @@ namespace App\EndpointController;
  * 
  */
 
-use App\Request;
-use App\Database;
-use App\ClientError;
+use App\{
+    Request,
+    Database,
+    ClientError
+};
 
 class AuthorAndAffiliation extends Endpoint
 {

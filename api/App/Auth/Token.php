@@ -21,8 +21,6 @@ namespace App\Auth;
 
 use Firebase\JWT\JWT;
 use App\Request;
-use App\Database;
-use App\ClientError;
 
 class Token extends \App\EndpointController\Endpoint 
 {

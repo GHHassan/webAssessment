@@ -27,9 +27,11 @@ namespace App\EndpointController;
  * @author Ghulam Hassan Hassani <w20017074@northumbria.ac.uk>
  */
 
-use App\Request;
-use App\Database;
-use App\ClientError;
+ use App\{
+    Request,
+    Database,
+    ClientError
+};
 
 class Content extends Endpoint
 {

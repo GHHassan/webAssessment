@@ -14,8 +14,10 @@ namespace App\EndpointController;
  * @author G H Hassani <W20017074@northumbria.ac.uk>
  */
 
-use App\Request;
-use App\Database;
+ use App\{
+    Request,
+    Database
+};
 
 class Country extends Endpoint
 {

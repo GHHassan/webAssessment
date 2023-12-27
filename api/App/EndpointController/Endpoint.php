@@ -21,9 +21,8 @@ namespace App\EndpointController;
  */
 
 use App\ {
-    ClientError,  
-    Request,
-    Database,
+    ClientError,
+    Database
 };
 use Firebase\JWT\JWT;
 

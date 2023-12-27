@@ -49,9 +49,6 @@ class ClientError extends \Exception
             case 500:
                 $message .= " (Internal Server Error)";
                 break;
-            case 501:
-                $message .= " (Not Implemented)";
-                break;
             default:
                 $message .= "Unknown Client Error";
         }
