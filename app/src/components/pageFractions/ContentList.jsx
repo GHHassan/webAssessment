@@ -54,7 +54,7 @@ const ContentList = (props) => {
             }
             notes()
         }
-    }, [props.signedIn, noteUpdated, token])
+    }, [noteUpdated, token])
 
     const notesToArrayFormat = (data) => {
         const resultMap = {}
