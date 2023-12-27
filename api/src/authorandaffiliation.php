@@ -37,7 +37,7 @@
     public function __construct(){
         parent::__construct();
         $this->initialiseSQL();
-
+        $this->data = $this->getData();
     }
 
     public function initialiseSQL(){

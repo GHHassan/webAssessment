@@ -1,29 +1,34 @@
 <?php
+
 /**
- * autoloader class
+ * Autoloader class
  * 
- * this class is responsible for including all the classes in the api folder
- * when they are needed.
+ * This class is responsible for including all the classes 
+ * in the "src" folder as and when they are needed.
+ * The methods of this class are called in the "api.php" file only once.
+ * It assumes that all the classes are in the "src" folder 
+ * and the files are named the same as the class name.
+ * The abstract constructor makes sure that the class is not
+ * instantiated.
  * 
- * this class is called in the index.php file
+ * @param string $className The name of the class to be loaded.
+ * @throws \Exception Throws an exception if the file is not found or not readable.
  * 
- * @author  G H Hassani <W20017074@northumbria.ac.uk>
+ * @author G H Hassani <W20017074@northumbria.ac.uk>
  */
-
-class autoloader
+class Autoloader
 {
-    public function __construct()
+    
+    static function autoload($className)
     {
-        $this->register();
-    }
+        $filename = $className . ".php";
+        $filename = str_replace('\\', DIRECTORY_SEPARATOR, $filename);
 
-    public static function autoload($class)
-    {
-        $class = strtolower($class);
-        $path = '../api/src/' . $class . '.php';
-        if (file_exists($path)) {
-            include_once $path;
-        }
+        if (!is_readable($filename)) {
+            throw new \Exception("File $filename not found");
+        } 
+
+        include_once $filename;
     }
 
     public static function register()
