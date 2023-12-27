@@ -1,4 +1,5 @@
 <?php
+
  /**
   * Exception handler
   * 
@@ -10,6 +11,7 @@
   * 
   * @package App
   */
+  
 function exceptionHandler($e) {
    $output['message'] = "Internal Server Error";
    $output['details']['exception'] = $e->getMessage();
