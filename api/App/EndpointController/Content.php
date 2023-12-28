@@ -51,6 +51,7 @@ class Content extends Endpoint
         $this->db = new Database(DB_PATH);
         $this->initialiseSQL();
         $this->data = $this->db->executeSQL($this->sql, $this->sqlParams);
+        http_response_code(200);
         parent::__construct($this->data);
     }
 
