@@ -64,7 +64,7 @@ class Note extends Endpoint
         $note = $this->sanitiseString(REQUEST::params()['note']);
 
         if (mb_strlen(strlen($note) > 255)) {
-            throw new ClientError(431, 'note is '. strlen($note).' over max length 255 characters ');
+            throw new ClientError(431, 'note is too long');
         }
 
        return $note;
