@@ -29,7 +29,7 @@ const fetchWithGet = async (endpointname) => {
 export const fetchRandomContent = async () => {
   try {
     return await fetchWithGet('previews?limit=1')
-  } catch (error) { 
+  } catch (error) {
     <ErrorComponent message={error.message} />
   }
 }
@@ -61,7 +61,7 @@ export const fetchTypes = async () => {
     return fetchWithGet('types')
   } catch (error) {
     <ErrorComponent message={error.message} />
-   }
+  }
 }
 
 /** 
@@ -70,15 +70,13 @@ export const fetchTypes = async () => {
  * in Content component
  */
 export const fetchNotes = async (token) => {
-  return fetch(`${API_BASE_URL}notes`, {
+  const response = await fetch(`${API_BASE_URL}notes`, {
     method: 'GET',
     headers: new Headers({ 'Authorization': 'Bearer ' + token }),
   })
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json()
-      }
-    })
+  if (response.status === 200 || response.status === 431) {
+    return response.json()
+  }
 }
 
 export const pushNote = async (note, content_id) => {
@@ -88,27 +86,27 @@ export const pushNote = async (note, content_id) => {
         method: 'POST',
         headers: new Headers({ 'Authorization': 'Bearer ' + token })
       })
-      if (response.status === 200) {
-        const data = await response.json()
-        return data
-      }
-  } catch (error) {
-    <ErrorComponent message={error.message} />
-  }
+    if (response.status === 200 || response.status === 431) {
+      const data = await response.json()
+      return data
+    }
+    } catch (error) {
+       throw new Error(error.message)
+    }
 }
 
 export const deleteNote = async (content_id) => {
-  try{
+  try {
     const response = await fetch(`${API_BASE_URL}notes?content_id=${content_id}`,
-    {
-      method: 'DELETE',
-      headers: new Headers({ 'Authorization': 'Bearer ' + token })
-    })
+      {
+        method: 'DELETE',
+        headers: new Headers({ 'Authorization': 'Bearer ' + token })
+      })
     if (response.status === 200) {
       const data = await response.json()
       return data
     }
-  }catch (error) {
+  } catch (error) {
     <ErrorComponent message={error.message} />
   }
 }
@@ -130,7 +128,7 @@ export const fetchAuthorsAndAffiliations = async (contentId) => {
 export const fetchCountries = async () => {
   try {
     return fetchWithGet('countries')
-  } catch (error) { 
+  } catch (error) {
     <ErrorComponent message={error.message} />
   }
 }

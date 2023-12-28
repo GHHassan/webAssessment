@@ -49,6 +49,7 @@ const Content = (props) => {
   const notifySave = () => toast('Note saved/updated, successfully!')
   const notifyDelete = () => toast('Note deleted, successfully!')
   const notifySaveError = () => toast('Note is empty or not changed, please add note and try again!')
+  const notifyLongNote = () => toast('Note is too long, please shorten it and try again!')
 
   useEffect(() => {
     const fetchAffiliations = async () => {
@@ -72,10 +73,11 @@ const Content = (props) => {
     }
     try {
       const data = await pushNote(noteRef, content_id)
-      if (data !== null ) {
+      if (data.message === 'success') {
         notifySave()
         props.setNoteUpdated(true)
-      } else {
+      } else if (data.message === 'note too long') {
+        notifyLongNote()
         setPushNoteError(true)
       }
     } catch (error) {
@@ -190,6 +192,7 @@ const Content = (props) => {
                   pushNoteError={pushNoteError}
                   note={props.note}
                 />
+                {pushNoteError && <p className="text-red-500">Note is too long, please shorten it and try again!</p>}
               </>
             )}
         </div>

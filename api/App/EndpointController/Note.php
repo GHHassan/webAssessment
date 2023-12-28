@@ -15,7 +15,7 @@ namespace App\EndpointController;
  * return the note for the specific content.
  * 
  * @package App\EndpointController
- * @return JSON data of the note for a specific content
+ * @return [JSON] data of the note for a specific content
  * 
  * @author Hassan <w20017074>
  */
