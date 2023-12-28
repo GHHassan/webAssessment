@@ -78,8 +78,8 @@ const ContentList = (props) => {
 
     const selectType = (content) => {
         let foundInType = null
-        if (content.content_type) {
-            foundInType = content.content_type.toLowerCase().includes(type.toLowerCase())
+        if (content.type_name) {
+            foundInType = content.type_name.toLowerCase().includes(type.toLowerCase())
         }
         return foundInType
     }
