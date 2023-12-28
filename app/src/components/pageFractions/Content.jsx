@@ -49,6 +49,7 @@ const Content = (props) => {
   const notifySave = () => toast('Note saved/updated, successfully!')
   const notifyDelete = () => toast('Note deleted, successfully!')
   const notifySaveError = () => toast('Note is empty or not changed, please add note and try again!')
+  const notifyTooLong = () => toast('Note is too long, max 250 characters allowed!')
 
   useEffect(() => {
     const fetchAffiliations = async () => {
@@ -72,11 +73,12 @@ const Content = (props) => {
     }
     try {
       const data = await pushNote(noteRef, content_id)
-      if (data !== null ) {
+      if (data.message === 'success') {
         notifySave()
-        props.setNoteUpdated(!props.noteUpdated)
-      } else {
-        setPushNoteError(true)
+        props.setNoteUpdated(true)
+      } else if (data.message === 'note too long'){
+        notifyTooLong()
+        setPushNoteError(true)  
       }
     } catch (error) {
       <ErrorComponent message={error.message} />
@@ -190,6 +192,7 @@ const Content = (props) => {
                   pushNoteError={pushNoteError}
                   note={props.note}
                 />
+                {pushNoteError && ( <ErrorComponent message='Note is too large max 250 characters allowed' />)}
               </>
             )}
         </div>

@@ -115,7 +115,7 @@ const ContentList = (props) => {
     if (props.contents) {
         pagedContentsJSX = contentsJSX.slice((page - 1) * 20, page * 20)
     }
-
+   
     const notFoundMessage = 'No matching content found, Please try differnt type of content or search term'
     return (
         <div className='md:flex-row md:items-center mb-4'>
