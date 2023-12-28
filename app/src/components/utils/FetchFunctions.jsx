@@ -83,7 +83,7 @@ export const fetchNotes = async (token) => {
 
 export const pushNote = async (note, content_id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}notes?note=${note}&content_id=${content_id}`,
+    const response = await fetch(`${API_BASE_URL}notes?content_id=${content_id}&note=${note}`,
       {
         method: 'POST',
         headers: new Headers({ 'Authorization': 'Bearer ' + token })

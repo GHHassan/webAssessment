@@ -139,8 +139,8 @@ class Note extends Endpoint
  
         $sqlParams = [':id' => $id, 'content_id' => $content_id, 'note' => $note];
         $data = $dbConn->executeSQL($sql, $sqlParams);
-     
-        return [];
+        $data = ['message' => 'success'];
+        return $data;
     }
  
  
