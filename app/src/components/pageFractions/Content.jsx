@@ -162,7 +162,7 @@ const Content = (props) => {
       </div>
         <div className="w-full md:w-9/12 text-center font-bold p-4 border border-gray-300 rounded-md shadow-lg hover:bg-blue-100 my-2">
           <h2>{props.content.content_title}</h2>
-          <p className="font-normal">Type: {props.content.content_type}</p>
+          <p className="font-normal">Type: {props.content.type_name}</p>
           <p className="font-normal">
             Award: {props.awards[content_id] ? props.awards[content_id] : 'No Awards, yet'}
           </p>

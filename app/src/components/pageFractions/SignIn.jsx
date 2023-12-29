@@ -27,7 +27,8 @@ function SignIn(props) {
   const [signinError, setSigninError] = useState(null)
 
   const signIn = () => {
-    const encodedString = btoa(usernameRef.current.value + ':' + passwordRef.current.value)
+    const username = usernameRef.current.value.toLowerCase()
+    const encodedString = btoa(username + ':' + passwordRef.current.value)
     fetchData(encodedString)
   }
 
