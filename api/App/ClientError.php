@@ -8,7 +8,7 @@ namespace App;
  * This is a subclass of the Exception class and used to 
  * handle client request errors.
  * 
- * @return Error message based on the error code.
+ * @return [Error] message based on the error code.
  * @author H Hassani <w20017074@northumbria.ac.uk>
  */
 class ClientError extends \Exception

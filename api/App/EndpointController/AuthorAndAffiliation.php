@@ -53,9 +53,8 @@ class AuthorAndAffiliation extends Endpoint
         parent::__construct($data);
     }
 
-    public function initialiseSQL()
+    protected function initialiseSQL()
     {
-        // Check and validate the parameters.
         $this->checkAllowedParams(Request::params(), $this->allowedParams);
         $contentId = Request::params()['content'] ?? null;
         $country = Request::params()['country'] ?? null;
@@ -70,7 +69,6 @@ class AuthorAndAffiliation extends Endpoint
             throw new ClientError(422);
         }
 
-        // Build the SQL query.
         if (isset($validatedContentId)) {
             $this->sql .= " WHERE affiliation.content =" . $validatedContentId;
         } else if (isset($normalisedCountry)) {

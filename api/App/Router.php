@@ -27,25 +27,29 @@ abstract class Router
                 case '/countries':
                     $endpoint = new EndpointController\Country();
                     break;
-                case 'preview':
-                case '/preview':
+                case 'previews':
+                case '/previews':
                     $endpoint = new EndpointController\Preview();
                     break;
-                case 'author-and-affiliation':
-                case '/author-and-affiliation':
+                case 'author-and-affiliations':
+                case '/author-and-affiliations':
                     $endpoint = new EndpointController\AuthorAndAffiliation();
                     break;
-                case 'content':
-                case '/content':
+                case 'contents':
+                case '/contents':
                     $endpoint = new EndpointController\Content();
                     break;
                 case 'token':
                 case '/token':
                     $endpoint = new Auth\Token();
                     break;
-                case 'note':
-                case '/note':
+                case 'notes':
+                case '/notes':
                     $endpoint = new EndpointController\Note();
+                    break;
+                case 'types':
+                case '/types':
+                    $endpoint = new EndpointController\Type();
                     break;
                 default:
                     throw new ClientError(404);

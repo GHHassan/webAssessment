@@ -81,7 +81,6 @@ class Preview extends Endpoint
                 return $randdomData;
             }
         }
-
         return $data;
     }
 }

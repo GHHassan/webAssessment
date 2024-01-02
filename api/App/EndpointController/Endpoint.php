@@ -42,7 +42,7 @@ class Endpoint
     protected function checkAllowedMethod($method, $allowedMethods = [])
     {
         if (!in_array($method, $allowedMethods)) {
-            throw new ClientError(405);
+            throw new ClientError(405, "Method not allowed");
         }
     }
     protected function sanitiseNum($input)
@@ -86,7 +86,7 @@ class Endpoint
     {
         $sanitisedNum = $this->sanitiseNum($num);
         if (!is_numeric($sanitisedNum) || $sanitisedNum <= 0) {
-            throw new ClientError(422);
+            throw new ClientError(422, "Invalid parameter: $num");
         }
         return $sanitisedNum;
     }
@@ -186,8 +186,4 @@ class Endpoint
         $this->setSQLParams([]);
     }
 
-    public function setAllowedParams($allowedParams)
-    {
-        $this->allowedParams = $allowedParams;
-    }
 }

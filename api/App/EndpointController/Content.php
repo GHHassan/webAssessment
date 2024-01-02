@@ -55,7 +55,7 @@ class Content extends Endpoint
         parent::__construct($this->data);
     }
 
-    public function initialiseSQL()
+    protected function initialiseSQL()
     {
         $this->checkAllowedParams(Request::params(), $this->allowedParams);
         $type = Request::params()['type'] ?? null;

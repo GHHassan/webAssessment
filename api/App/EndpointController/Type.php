@@ -8,15 +8,14 @@ namespace App\EndpointController;
  * enables users to get all types of content
  * 
  * @package App\EndpointController
- * @return JSON data of the type of content
+ * @return [JSON] of the types of the contents
  * 
  * @author 
  */
 
 use App\{
     Request,
-    Database,
-    ClientError
+    Database
 };
 class Type extends Endpoint
 {
