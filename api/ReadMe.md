@@ -1,4 +1,14 @@
-# About this Api
+title: KF6012 web application integration
+
+Authors
+===============
+*__ Ghulam Hassan Hassani [w20017074@northumbria.ac.uk]
+*__ generated
+
+# About this Project
+This project has two main sections, a Restful API and a front end React App
+
+## Section 1 the API
 This api is providing data from chi2023 database
 This is solely developed for Web Application Integration Assessment KF6012
 This Api contains 8 Endpoint classes that extends the General Endpoint class
@@ -17,6 +27,7 @@ This Api contains 8 Endpoint classes that extends the General Endpoint class
 * account.sqlite used to store and provides user credentials, and user notes 
 4. includes the Firebase JWT library 
 * this library is used to generate and validate JWT tokens for user authorisations and authentaition.
+5. a .htaccess file is used to enforce single point of entry
 
 ## How to use this APIs
 These endpoints can form a RestFul API which can be used with any front end application that can interact with an API and process JSON formated data.
@@ -96,3 +107,20 @@ param = none
 Link https://w20017074.nuwebspace.co.uk/kf6012/coursework/api/types
 
 returns all type names and type Ids from types table of CHI2023 database
+
+## Section Two the Front end React application
+
+* Note, the note functionality only works once you are signedIn and refereshed the page. It does not work if you are logged in for the first time. This has been discussed with John Rooksby.
+
+* this is the link to the front end application [https://w20017074.nuwebspace.co.uk/kf6012/coursework/app]
+* This section is organised in a React vite application.
+All components includes a doc comment explaining thier purpose and
+functionalities, authors and often return types
+* This section is using the tailwindCSS frame work for styling the application
+* The application is fluid and designed in a responsive way to be viewed on different screen sizes
+* It contains four pages including a home, Countries, Contents and Not found pages.
+* all pages contains a footer and a header consistently
+* Navigation to different pages does not trigger new fetch requests
+* if there is no data to display a user friedly message thats part of the Notfound page will be displayed
+* One image is used in Not found page
+

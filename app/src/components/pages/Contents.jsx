@@ -52,7 +52,7 @@ const Contents = (props) => {
       }
     }
     fetchData()
-  }, [props.signedIn])
+  }, [])
 
   const awardToArrayFormat = (data) => {
     const resultMap = {}
