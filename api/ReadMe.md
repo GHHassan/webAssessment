@@ -39,9 +39,12 @@ This class it the parent of all Endpoints of this API.
 This does not return anything and neither it can be accessed via http request.  
 it provides the common properties and methods to its children.  
 Its methods includes sanitiseString(), sanitiseInt(), normaliseString(), 
-initialiseSQL(), checkAllowedParameters(), checkCredentials(), validateToken()  getBearerToken(), and checkAllowedMethods(). Most of the methods listed above are self  exlanatory of thier potential functionalities. 
+initialiseSQL(), checkAllowedParameters(), checkCredentials(), validateToken(),  
+getBearerToken(), and checkAllowedMethods(). Most of the methods listed above are self  
+exlanatory of thier potential functionalities.  
 However, the ambiguos ones such as normaliseString() returns the string with  
-the first letter in capital and the rest of in lower case, checkAllowedMethods() checks whether the http request method is allowed by the endpoint.
+the first letter in capital and the rest of in lower case, checkAllowedMethods() checks  
+whether the http request method is allowed by the endpoint.
 
 ## 1 Developer Enpoint
 GET /developer
