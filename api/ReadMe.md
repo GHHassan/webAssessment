@@ -116,7 +116,8 @@ returns all type names and type Ids from types table of CHI2023 database
 
 * Note, the note functionality only works once you are signedIn and refereshed the  page. It does not work if you are logged in for the first time. This has been discussed with John Rooksby.
 
-* this is the link to the front end application [https://w20017074.nuwebspace.co.uk/kf6012/coursework/app]  
+* this is the [link](https://w20017074.nuwebspace.co.uk/kf6012/coursework/app) to the  
+front end application https://w20017074.nuwebspace.co.uk/kf6012/coursework/app  
 * This section is organised in a React vite application.  
 All components includes a doc comment explaining thier purpose and  
 functionalities, authors and often return types  
