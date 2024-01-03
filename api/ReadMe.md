@@ -11,8 +11,8 @@ This project has two main sections, a Restful API and a front end React App
 
 ## Section 1 the API
 This api is providing data from chi2023 database
-This is solely developed for Web Application Integration Assessment KF6012
-This Api contains 8 Endpoint classes that extends the General Endpoint class
+This is solely developed for Web Application Integration Assessment KF6012  
+This Api contains 8 Endpoint classes that extends the General Endpoint class  
 1. The api.php file is the only access point to this Api
 2. It includes some Utility classed such as:
 * ClientError for error handling,
@@ -35,10 +35,10 @@ These endpoints can form a RestFul API which can be used with any front end
 application that can interact with an API and process JSON formated data.
 
 ## Endpoint class
-This class it the parent of all Endpoints of this API.
-This does not return anything and neither it can be accessed via http request.
-it provides the common properties and methods to its children.
-Its methods includes sanitiseString(), sanitiseInt(), normaliseString(),
+This class it the parent of all Endpoints of this API.  
+This does not return anything and neither it can be accessed via http request.  
+it provides the common properties and methods to its children.  
+Its methods includes sanitiseString(), sanitiseInt(), normaliseString(),  
 initialiseSQL(), checkAllowedParameters(), checkCredentials(), validateToken(),   getBearerToken(), and checkAllowedMethods(). Most of the methods listed above are self  exlanatory of thier potential functionalities. 
 However, the ambiguos ones such as normaliseString() returns the string with  
 the first letter in capital and the rest of in lower case, checkAllowedMethods() checks whether the http request method is allowed by the endpoint.
