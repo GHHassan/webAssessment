@@ -151,7 +151,6 @@ const Content = (props) => {
         <Toaster 
           toastOptions={
             {
-              className: '',
               style: {
                 background: '#3a80c9',
                 color: '#fff',

@@ -130,8 +130,7 @@ const ContentList = (props) => {
                         maxPage={maxPage}
                         setPage={setPage}
                     />}
-                {showAll && contentsJSX.length > 0 ? contentsJSX : null}
-                {!showAll && pagedContentsJSX.length > 0 ? pagedContentsJSX : null}
+                {!showAll && pagedContentsJSX.length > 0 ? pagedContentsJSX : contentsJSX}
                 {(contentsJSX.length === 0 && pagedContentsJSX.length === 0) && <NotFound message={notFoundMessage}/>}
                 {!showAll &&
                     <PaginationButtons
