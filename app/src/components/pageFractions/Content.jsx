@@ -93,8 +93,10 @@ const Content = (props) => {
         const data = await pushNote(noteRef, content_id)
         if (data.message === 'success') {
           notifySave()
+          props.setNoteUpdated(!props.noteUpdated)
           setPushNoteError(false)
-          setPushedNote(false)
+        }else{
+          setPushNoteError(true)
         }
       } catch (error) {
         <ErrorComponent message={error.message} />
@@ -102,8 +104,10 @@ const Content = (props) => {
     }
     if (pushedNote) {
       pushThisNote()
+      setPushedNote(false)
     }
   }, [pushedNote === true])
+
   const handleAffiliationClick = (e) => {
     e.stopPropagation()
     setShowAffiliations(!showAffiliations)
@@ -124,7 +128,6 @@ const Content = (props) => {
       return
     }else {
       setPushedNote(true);
-      props.setNoteUpdated(!props.noteUpdated)
       setShowNoteComponent(!showNoteComponent)
     }
   }
