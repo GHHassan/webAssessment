@@ -28,7 +28,7 @@
  */
 
 import React, { useEffect, useState } from 'react'
-import toast, { Toaster} from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import Note from './Note'
 import ErrorComponent from './ErrorComponent'
 import { AddNoteButton, SaveNoteButton, DiscardNoteButton, AffilliationButton, DeleteNoteButton } from '../utils/Buttons'
@@ -44,11 +44,13 @@ const Content = (props) => {
   const [showNoteComponent, setShowNoteComponent] = useState(false)
   const [noteRef, setNoteRef] = useState(props.note || '')
   const [pushNoteError, setPushNoteError] = useState(false)
+  const [removeNote, setRemoveNote] = useState(false);
+  const [pushedNote, setPushedNote] = useState(false);
 
   /** notification functions for saving or updating and deleting notes */
   const notifySave = () => toast('Note saved/updated, successfully!')
   const notifyDelete = () => toast('Note deleted, successfully!')
-  const notifySaveError = () => toast('Note is empty or not changed, please add note and try again!')
+  const notifySaveError = () => toast('Note is empty or unchanged, please add/edit note and try again!')
   const notifyTooLong = () => toast('Note is too long, max 250 characters allowed!')
 
   useEffect(() => {
@@ -66,36 +68,42 @@ const Content = (props) => {
     fetchAffiliations()
   }, [showAffiliations, content_id])
 
-  const saveNote = async () => {
-    if(noteRef === '' || content_id === null) {
-      notifySaveError()
-      return
-    }
-    try {
-      const data = await pushNote(noteRef, content_id)
-      if (data.message === 'success') {
-        notifySave()
-        props.setNoteUpdated(true)
-      } else if (data.message === 'note too long'){
-        notifyTooLong()
-        setPushNoteError(true)  
+  useEffect(() => {
+    const deleteThisNote = async () => {
+      try {
+        const data = await deleteNote(content_id)
+        if (data.message === 'success') {
+          notifyDelete()
+          setRemoveNote(false)
+          props.setNoteUpdated(!props.noteUpdated)
+        }
+      } catch (error) {
+        <ErrorComponent message={error.message} />
       }
-    } catch (error) {
-      <ErrorComponent message={error.message} />
     }
-  }
+    if (removeNote) {
+      deleteThisNote()
+    }
 
-  const removeNote = async () => {
-    try {
-      const data = await deleteNote(content_id)
-      if (data.message === 'success' ) {
-        notifyDelete()
-        props.setNoteUpdated(!props.noteUpdated)
+  }, [removeNote === true])
+
+  useEffect(() => {
+    const pushThisNote = async () => {
+      try {
+        const data = await pushNote(noteRef, content_id)
+        if (data.message === 'success') {
+          notifySave()
+          setPushNoteError(false)
+          setPushedNote(false)
+        }
+      } catch (error) {
+        <ErrorComponent message={error.message} />
       }
-    } catch (error) {
-      <ErrorComponent message={error.message} />
     }
-  }
+    if (pushedNote) {
+      pushThisNote()
+    }
+  }, [pushedNote === true])
   const handleAffiliationClick = (e) => {
     e.stopPropagation()
     setShowAffiliations(!showAffiliations)
@@ -106,59 +114,66 @@ const Content = (props) => {
     setShowNoteComponent(!showNoteComponent)
   }
 
-  const handleSaveNote = async(e) => {
+  const handleSaveNote = async (e) => {
     e.stopPropagation()
-    await saveNote()
-    props.setNoteUpdated(!props.noteUpdated)
-    setShowNoteComponent(!showNoteComponent)
+    if (noteRef.length > 250) {
+      notifyTooLong()
+      return
+    }else if (noteRef === props.note || noteRef === '') {
+      notifySaveError()
+      return
+    }else {
+      setPushedNote(true);
+      props.setNoteUpdated(!props.noteUpdated)
+      setShowNoteComponent(!showNoteComponent)
+    }
   }
 
-  const handleDeleteNote = async(e) => {
+  const handleDeleteNote = async (e) => {
     e.stopPropagation()
-    await removeNote()
+    setRemoveNote(true)
     props.setNoteUpdated(!props.noteUpdated)
     setShowNoteComponent(!showNoteComponent)
-    
+
   }
 
   const affiliationJSX = affiliations.map((content, index) => (
-    
-      <ul key={index} 
-        className="list-none border p-4 mb-4 mr-4 rounded shadow-md w-96 flex flex-col text-left">
-        <li >
-          <span className="font-bold">Name:</span>
-          <span className="font-normal"> {content.author_name}</span>
-        </li>
-        <li >
-          <span className="font-bold">Institution:</span>
-          <span className="font-normal"> {content.affiliation_institution}</span>
-        </li>
-        <li className="col-span-4 mb-2 flex-grow">
-          <span className="font-bold">City:</span>
-          <span className="font-normal"> {content.affiliation_city}</span>
-        </li>
-        <li >
-          <span className="font-bold">Country:</span>
-          <span className="font-normal"> {content.affiliation_country}</span>
-        </li>
-      </ul>
+    <ul key={index}
+      className="list-none border p-4 mb-4 mr-4 rounded shadow-md w-96 flex flex-col text-left">
+      <li >
+        <span className="font-bold">Name:</span>
+        <span className="font-normal"> {content.author_name}</span>
+      </li>
+      <li >
+        <span className="font-bold">Institution:</span>
+        <span className="font-normal"> {content.institution}</span>
+      </li>
+      <li>
+        <span className="font-bold">City:</span>
+        <span className="font-normal"> {content.city}</span>
+      </li>
+      <li >
+        <span className="font-bold">Country:</span>
+        <span className="font-normal"> {content.country}</span>
+      </li>
+    </ul>
   ));
-  
+
   return (
     <>
       <div className="flex flex-col md:flex-row justify-center ">
-      <div>
-        <Toaster 
-          toastOptions={
-            {
-              style: {
-                background: '#3a80c9',
-                color: '#fff',
+        <div>
+          <Toaster
+            toastOptions={
+              {
+                style: {
+                  background: '#3a80c9',
+                  color: '#fff',
+                }
               }
-          }
-        }
-        />
-      </div>
+            }
+          />
+        </div>
         <div className="w-full md:w-9/12 text-center font-bold p-4 border border-gray-300 rounded-md shadow-lg hover:bg-blue-100 my-2">
           <h2>{props.content.content_title}</h2>
           <p className="font-normal">Type: {props.content.type_name}</p>
@@ -171,29 +186,29 @@ const Content = (props) => {
             showAffiliations={showAffiliations}
           />}
           {signedIn && (
-            <AddNoteButton 
-              handleAddNote={handleAddNote} 
-              hasNote={props.note} 
+            <AddNoteButton
+              handleAddNote={handleAddNote}
+              hasNote={props.note}
               showNoteComponent={showNoteComponent} />
           )}
           {showNoteComponent && (
-              <>
-                <SaveNoteButton handleSaveNote={handleSaveNote} />
-                <DiscardNoteButton handleAddNote={handleAddNote} />
-                {props.note && (
-                  <DeleteNoteButton handleDeleteNote={handleDeleteNote} />
-                )}
-                <Note
-                  showNoteComponent={showNoteComponent}
-                  setShowNoteComponent={setShowNoteComponent}
-                  noteRef={noteRef}
-                  setNoteRef={setNoteRef}
-                  pushNoteError={pushNoteError}
-                  note={props.note}
-                />
-                {pushNoteError && ( <ErrorComponent message='Note is too large max 250 characters allowed' />)}
-              </>
-            )}
+            <>
+              <SaveNoteButton handleSaveNote={handleSaveNote} />
+              <DiscardNoteButton handleAddNote={handleAddNote} />
+              {props.note && (
+                <DeleteNoteButton handleDeleteNote={handleDeleteNote} />
+              )}
+              <Note
+                showNoteComponent={showNoteComponent}
+                setShowNoteComponent={setShowNoteComponent}
+                noteRef={noteRef}
+                setNoteRef={setNoteRef}
+                pushNoteError={pushNoteError}
+                note={props.note}
+              />
+              {pushNoteError && (<ErrorComponent message='Note is too large max 250 characters allowed' />)}
+            </>
+          )}
         </div>
       </div>
       <div className='flex items-center justify-center mb-6'>
