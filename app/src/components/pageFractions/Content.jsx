@@ -157,7 +157,6 @@ const Content = React.memo((props) => {
     setRemoveNote(true)
     props.setNoteUpdated(!props.noteUpdated)
     setShowNoteComponent(!showNoteComponent)
-
   }
 
   const affiliationJSX = affiliations.map((content, index) => (
