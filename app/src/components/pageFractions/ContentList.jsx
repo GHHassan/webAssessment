@@ -40,6 +40,7 @@ const ContentList = (props) => {
     const [showAll, setShowAll] = useState(false)
     const [notes, setNotes] = useState([])
     const [noteUpdated, setNoteUpdated] = useState(false)
+    const [loading, setLoading] = useState(false)
     let maxPage = 0
     let token = localStorage.getItem('token') || ''
 
@@ -47,10 +48,15 @@ const ContentList = (props) => {
         if (props.signedIn) {
             const notes = async () => {
                 try {
+                    setLoading(true)
                     const data = await fetchNotes(token)
                     const notesArray = notesToArrayFormat(data)
                     setNotes(notesArray)
-                } catch (error) {}
+                } catch (error) {
+
+                }finally{
+                    setLoading(false)
+                }
             }
             notes()
         }
@@ -120,6 +126,11 @@ const ContentList = (props) => {
     return (
         <div className='md:flex-row md:items-center mb-4'>
             <div className='mb-5 p-4 border rounded bg-white'>
+            {loading ? (
+                // Render a loading spinner or any loading indicator
+                <div className="spinner">Loading...</div>
+            ) : (
+                <>
                 <Search search={search} handleContentSearch={handleContentSearch} />
                 {!showAll && <PageNumbers page={page} maxPage={maxPage} setPage={setPage} />}
                 <ShowAllButton showAll={showAll} handleShowAll={handleShowAllClicks} setShowAll={setShowAll} />
@@ -138,6 +149,8 @@ const ContentList = (props) => {
                         maxPage={maxPage}
                         setPage={setPage}
                     />}
+                </>
+            )}
             </div>
         </div>
     )
